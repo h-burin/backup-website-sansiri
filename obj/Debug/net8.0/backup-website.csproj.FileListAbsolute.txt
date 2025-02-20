@@ -28,3 +28,7 @@ C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\refint\
 C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\backup-website.pdb
 C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\backup-website.genruntimeconfig.cache
 C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\ref\backup-website.dll
+C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\bin\Debug\net8.0\backup-website.staticwebassets.endpoints.json
+C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\backup-website.sourcelink.json
+C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\Ext-Burin.Sa\Desktop\Programing\backup-website\obj\Debug\net8.0\staticwebassets\msbuild.backup-website.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
