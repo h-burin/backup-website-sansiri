@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\backup-website.bundle.scp.css",
-      "PackagePath": "staticwebassets\\backup-website.8cdsp7b0r5.bundle.scp.css"
+      "PackagePath": "staticwebassets\\backup-website.es6x2veoii.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\css\\site.css",
@@ -11,6 +11,18 @@
     {
       "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\img\\logo\\sansiri-logo-en-black.png",
+      "PackagePath": "staticwebassets\\img\\logo\\sansiri-logo-en-black.png"
+    },
+    {
+      "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\img\\logo\\sansiri-logo-en-white.png",
+      "PackagePath": "staticwebassets\\img\\logo\\sansiri-logo-en-white.png"
+    },
+    {
+      "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\img\\logo\\sansiri-logo-sm-white.png",
+      "PackagePath": "staticwebassets\\img\\logo\\sansiri-logo-sm-white.png"
     },
     {
       "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\backup-website\\wwwroot\\js\\site.js",

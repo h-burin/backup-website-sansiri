@@ -1,22 +1,22 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\backup-website.8cdsp7b0r5.bundle.scp.css'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\backup-website.es6x2veoii.bundle.scp.css'))">
       <SourceType>Package</SourceType>
       <SourceId>backup-website</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/backup-website</BasePath>
-      <RelativePath>backup-website.8cdsp7b0r5.bundle.scp.css</RelativePath>
+      <RelativePath>backup-website.es6x2veoii.bundle.scp.css</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>Reference</AssetMode>
       <AssetRole>Primary</AssetRole>
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>ScopedCss</AssetTraitName>
       <AssetTraitValue>ProjectBundle</AssetTraitValue>
-      <Fingerprint>8cdsp7b0r5</Fingerprint>
-      <Integrity>eOg76ZcyLgf0nyzz05MKzHJdoWuGfVs5tsn4wuKXHOc=</Integrity>
+      <Fingerprint>es6x2veoii</Fingerprint>
+      <Integrity>np4ncFq5ViEOcGRr5L33Q+ks0p0sHhu9HRCIkwLSi8s=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\backup-website.8cdsp7b0r5.bundle.scp.css'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\backup-website.es6x2veoii.bundle.scp.css'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))">
       <SourceType>Package</SourceType>
@@ -53,6 +53,60 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-en-black.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>backup-website</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/backup-website</BasePath>
+      <RelativePath>img/logo/sansiri-logo-en-black.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>omnviqny2z</Fingerprint>
+      <Integrity>oIxKEaCYbFH5H6dC0tAzwuWkHlZlo0lnjJ0tK6EslBY=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-en-black.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-en-white.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>backup-website</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/backup-website</BasePath>
+      <RelativePath>img/logo/sansiri-logo-en-white.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>zsd9ya9utf</Fingerprint>
+      <Integrity>I4hUtLw6Bm0HFImmFJx6GIsrrDzqMpMgaBRPgCXiKDo=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-en-white.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-sm-white.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>backup-website</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/backup-website</BasePath>
+      <RelativePath>img/logo/sansiri-logo-sm-white.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>ker1he4s67</Fingerprint>
+      <Integrity>/CmXZ+kQtqgszvBmLnG0rEonqPHR9Ln5vgpDjOIuXRQ=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\img\logo\sansiri-logo-sm-white.png'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))">
       <SourceType>Package</SourceType>
@@ -1110,8 +1164,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>dojgmqnw6m</Fingerprint>
-      <Integrity>nbXENK++qylT6uyP6rbpl4WVN0zieEyVfzajsfqKYCU=</Integrity>
+      <Fingerprint>suh29989jt</Fingerprint>
+      <Integrity>HAx4saNLMQugvL/1rBdxcIqyPLcYl8RdqHAcdt4+oDo=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\veltrix\css\app.css'))</OriginalItemSpec>
@@ -1128,8 +1182,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>5jd2uuy8ea</Fingerprint>
-      <Integrity>AedJ/RZitnlWZMwKgpMxbtuBHcEq8ZUBxUEoFnbEH/o=</Integrity>
+      <Fingerprint>b1euphs027</Fingerprint>
+      <Integrity>j/8esHMxm3Yj4HxDSPtS663RzJ1xnPy7wZBOu4b7qrI=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\veltrix\css\app-rtl.min.css'))</OriginalItemSpec>
@@ -1146,8 +1200,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>zi561qqh70</Fingerprint>
-      <Integrity>hXUs2wkBCujCB2PXJjVYBeskvM3q0FZgBMIiexxWnqk=</Integrity>
+      <Fingerprint>bh37ppf992</Fingerprint>
+      <Integrity>oQVNyCnnry2BPZqsK8mHvvCLRNLELLSUsL/cBubIczQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\veltrix\css\app-rtl.min.css.map'))</OriginalItemSpec>
@@ -1182,8 +1236,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>9x1lawi8u7</Fingerprint>
-      <Integrity>/eYeSbu++UJLGDqGjCbAnHv+kxvNwfHI+R0VMGCQrxg=</Integrity>
+      <Fingerprint>nerilylnhf</Fingerprint>
+      <Integrity>P2jybYwd/elcWUoPrWic55AA3DLxaTiB7adZvEdmkC8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\veltrix\css\app.min.css.map'))</OriginalItemSpec>
