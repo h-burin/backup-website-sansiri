@@ -1,4 +1,6 @@
+@using backup_website.Models.SansiriUrlLog
 @model List<Result>
+
 @{
     ViewData["Title"] = "Download History";
     ViewData["UseDataTable"] = true;
@@ -39,8 +41,11 @@
         $(document).ready(function () {
             var table = $('#datatable').DataTable();
 
-            // ตั้งค่า pageLength ใหม่
+            // ✅ ตั้งค่า pageLength ใหม่ โดยไม่ต้อง `destroy()`
             table.page.len(25).draw();
+
+            // ✅ ตั้งค่า order ให้เรียง ID (`id_log`) จากมากไปน้อย
+            table.order([0, 'desc']).draw();
         });
     </script>
 }

@@ -24,6 +24,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=BackupWebsite}/{action=DownloadHistory}/{id?}"); // ✅ เปลี่ยนให้ชี้ไปที่ `BackupWebsiteController`
-
+    // pattern: "{controller=BackupWebsite}/{action=DownloadHistory}/{id?}"); // ✅ เปลี่ยนให้ชี้ไปที่ `BackupWebsiteController`
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();

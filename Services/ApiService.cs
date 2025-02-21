@@ -1,4 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
+using backup_website.Models.SansiriUrlLog;
+using backup_website.Models.TableSansiriUrl;
+using backup_website.Models.TableUrlCategory;
+
 public class ApiService
 {
     private readonly HttpClient _httpClient;
@@ -8,10 +16,33 @@ public class ApiService
         _httpClient = httpClient;
     }
 
-    public async Task<List<Result>> GetDataAsync()
+    public async Task<List<backup_website.Models.SansiriUrlLog.Result>> GetDataAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url-log");
-        request.Headers.Add("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5MzEwODZjLWY0NjMtNGQ4Ni04ZTVjLTU2NmVmODhlMjVkZiIsImlhdCI6MTU0OTk1MTA4N30.ypF3f7RwVbTJ1_0UWCDszf0DJd1upvssZ5ecXgjzqPU"); // ✅ ใช้ Header "token" ตามที่ Postman ใช้
+        return await FetchApiData<SansiriUrlLog, backup_website.Models.SansiriUrlLog.Result>(
+            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url-log"
+        );
+    }
+    public async Task<List<backup_website.Models.TableSansiriUrl.Result>> GetSansiriUrlsAsync()
+    {
+        return await FetchApiData<TableSansiriUrl, backup_website.Models.TableSansiriUrl.Result>(
+            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url"
+        );
+    }
+
+    public async Task<List<backup_website.Models.TableUrlCategory.Result>> GetTableUrlCategory()
+    {
+        return await FetchApiData<TableUrlCategory, backup_website.Models.TableUrlCategory.Result>(
+            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url-category"
+        );
+    }
+
+
+    /// 🔄 **ฟังก์ชันกลาง** ใช้สำหรับดึงข้อมูลจาก API (ช่วยลดโค้ดซ้ำ)
+    private async Task<List<TItem>> FetchApiData<TResponse, TItem>(string url)
+        where TResponse : class
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5MzEwODZjLWY0NjMtNGQ4Ni04ZTVjLTU2NmVmODhlMjVkZiIsImlhdCI6MTU0OTk1MTA4N30.ypF3f7RwVbTJ1_0UWCDszf0DJd1upvssZ5ecXgjzqPU"); // ✅ ใช้ Header "token"
 
         var response = await _httpClient.SendAsync(request);
 
@@ -22,12 +53,12 @@ public class ApiService
         }
 
         var json = await response.Content.ReadAsStringAsync();
-        var data = JsonSerializer.Deserialize<SansiriUrlLog>(json, new JsonSerializerOptions
+        var data = JsonSerializer.Deserialize<TResponse>(json, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         });
 
-        return data?.Result ?? new List<Result>();
+        // ✅ คืนค่า List<TItem> จาก Model
+        return (data?.GetType().GetProperty("Result")?.GetValue(data) as List<TItem>) ?? new List<TItem>();
     }
-
 }
