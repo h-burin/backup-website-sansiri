@@ -1,0 +1,38 @@
+<div class="vertical-menu">
+    <div data-simplebar class="h-100">
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title">Main</li>
+
+                <li>
+                    <a asp-controller="Home" asp-action="Index" class="waves-effect">
+                        <i class="ti-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="Home" asp-action="Privacy" class="waves-effect">
+                        <i class="ti-pencil-alt"></i>
+                        <span>Privacy</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ti-shield"></i>
+                        <span>Backup Website</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="email-inbox.html">URL Website</a></li>
+                        <li><a asp-controller="BackupWebsite" asp-action="index">Download History</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

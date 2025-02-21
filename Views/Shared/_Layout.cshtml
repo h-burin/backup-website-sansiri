@@ -13,31 +13,11 @@
 
 
 <body data-sidebar="dark">
-  @* <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-      <div class="container-fluid">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">backup_website</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-          <ul class="navbar-nav flex-grow-1">
-            <li class="nav-item">
-              <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header> *@
+
   <div id="layout-wrapper">
 
-    @await Html.PartialAsync("_Navbar")
-    @await Html.PartialAsync("_Sidebar")
+    @await Html.PartialAsync("partials/_Navbar")
+    @await Html.PartialAsync("partials/_Sidebar")
 
     <!-- Start right Content here -->
     <div class="main-content">
@@ -48,33 +28,41 @@
           <div class="page-title-box">
             <div class="row align-items-center">
               <div class="col-md-8">
-                <h6 class="page-title">Dashboard</h6>
+                <h6 class="page-title">@ViewData["Title"]</h6>
                 <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item active">
-                    Welcome to Veltrix Dashboard
-                  </li>
+                  <li class="breadcrumb-item"><a href="#">Veltrix</a></li>
+                  <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Data tables</li>
                 </ol>
               </div>
             </div>
           </div>
           <!-- end page title -->
 
-          <main role="main" class="pb-3">
-            @RenderBody()
-          </main>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <main role="main" class="card-body">
+                  @RenderBody()
+                </main>
+              </div>
+            </div>
+          </div>
+
 
         </div>
       </div>
       <!-- End Page-content -->
 
-      @await Html.PartialAsync("_Footer")
+      @await Html.PartialAsync("partials/_Footer")
     </div>
     <!-- end main content-->
 
   </div>
 
   <!-- Right Sidebar -->
-  @await Html.PartialAsync("_SidebarSettings")
+  @await Html.PartialAsync("partials/_SidebarSettings")
   <!-- /Right-bar -->
 
   <!-- Right bar overlay-->
