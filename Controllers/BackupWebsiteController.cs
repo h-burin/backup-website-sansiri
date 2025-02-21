@@ -4,7 +4,7 @@ namespace backup_website.Controllers
 {
     public class BackupWebsiteController : Controller
     {
-        public IActionResult Index()
+        public IActionResult DownloadHistory()
         {
             return View();
         }
