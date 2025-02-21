@@ -34,3 +34,9 @@ body {
 .right-bar .right-bar-toggle:hover {
   background-color: #2a3042db !important;
 }
+
+.default-datatable-responsive {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+}
