@@ -28,7 +28,7 @@
                     <td>@item.url_thankyou</td>
                     <td>@item.category_name</td>
                     <td>
-                        <span class="d-flex justify-content-lg-center justify-content-start">
+                        <span class="d-flex justify-content-xl-center justify-content-start">
                             <input class="form-check-input switch-status m-0" type="checkbox" id="switch_@item.url_id"
                                 data-url-id="@item.url_id" switch="none" @(item.is_active == true ? "checked" : "")>
                             <label class="form-label m-0" for="switch_@item.url_id" data-on-label="On"
@@ -95,86 +95,4 @@
 
 @section Scripts {
     <script src="~/js/downloadLinks.js"></script>
-    <script>
-        $(document).ready(function () {
-            // ✅ กดปุ่ม Edit โหลดข้อมูลเข้า Modal
-            $(document).on('click', '.edit-btn', function () {
-                var urlId = $(this).data('url-id');
-                var url = $(this).data('url');
-                var thankYouUrl = $(this).data('thankyou-url');
-                var categoryId = $(this).data('category-id');
-
-                $('#editUrlId').val(urlId);
-                $('#editUrl').val(url);
-                $('#editThankYouUrl').val(thankYouUrl);
-
-                // ✅ โหลด Categories และตั้งค่าค่า Default
-                loadCategories(function () {
-                    $('#editCategory').val(categoryId);
-                });
-
-                $('#editModal').modal('show');
-            });
-
-            // ✅ กดปุ่ม Save เพื่ออัปเดตข้อมูล
-            $('#saveEditBtn').on('click', function () {
-                var requestData = {
-                    url_id: parseInt($('#editUrlId').val()),
-                    url: $('#editUrl').val(),
-                    url_thankyou: $('#editThankYouUrl').val(),
-                    id_category_url: parseInt($('#editCategory').val()),
-                    is_active: true,
-                    is_delete: false
-                };
-
-                console.log("📌 Debug - ส่งข้อมูลไป API:", requestData); // ✅ ตรวจสอบค่า
-
-                $.ajax({
-                    url: '/BackupWebsite/UpdateUrl',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(requestData),
-                    success: function (response) {
-                        if (response.success) {
-                            toastr.success("Updated successfully!");
-                            $('#editModal').modal('hide');
-                            location.reload();
-                        } else {
-                            toastr.error("Update failed: " + response.error);
-                        }
-                    },
-                    error: function (xhr) {
-                        console.log("❌ Debug - API Error:", xhr.responseText);
-                        toastr.error("Error updating data.");
-                    }
-                });
-            });
-
-        });
-
-        // ✅ ฟังก์ชันโหลด Categories
-        function loadCategories(callback) {
-            $.ajax({
-                url: '/BackupWebsite/GetCategories',
-                type: 'GET',
-                success: function (response) {
-                    if (response.success) {
-                        var categorySelect = $('#editCategory');
-                        categorySelect.empty();
-                        categorySelect.append('<option value="">Select Category</option>');
-
-                        response.data.forEach(category => {
-                            categorySelect.append(`<option value="${category.id_category_url}">${category.name}</option>`);
-                        });
-
-                        if (callback) callback(); // ✅ เรียก callback หลังจากโหลดเสร็จ
-                    }
-                },
-                error: function () {
-                    toastr.error("Failed to load categories.");
-                }
-            });
-        }
-
-    </script>
 }

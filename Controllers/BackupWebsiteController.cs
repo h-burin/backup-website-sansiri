@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
-using backup_website.Models.Requests; // ✅ Import Model ใหม่
+using backup_website.Models.Requests; // ✅ นำเข้า Model ที่ใช้รับค่าจาก Frontend
 
 namespace backup_website.Controllers
 {
     public class BackupWebsiteController : Controller
     {
-        private readonly ApiService _apiService;
-        private readonly IConfiguration _configuration;
-        private readonly HttpClient _httpClient;
-        private readonly string _BaseUrlUrud;
-        private readonly string _apiToken;
+        private readonly ApiService _apiService;  // ✅ ใช้เรียก API Service ที่ติดต่อกับ Database
+        private readonly IConfiguration _configuration;  // ✅ โหลดค่าตั้งจาก `appsettings.json`
+        private readonly HttpClient _httpClient;  // ✅ ใช้สำหรับทำ HTTP Request
+        private readonly string _BaseUrlUrud;  // ✅ เก็บ Base URL ของ API
+        private readonly string _apiToken;  // ✅ เก็บ API Token
 
         public BackupWebsiteController(ApiService apiService, IConfiguration configuration, HttpClient httpClient)
         {
@@ -19,28 +19,28 @@ namespace backup_website.Controllers
             _configuration = configuration;
             _httpClient = httpClient;
 
-            // ✅ โหลดค่าจาก `appsettings.json`
+            // ✅ โหลดค่า API URL และ Token จาก `appsettings.json`
             _BaseUrlUrud = _configuration["ApiSettings:BaseUrlUrud"] ?? throw new ArgumentNullException(nameof(_BaseUrlUrud), "API URL not found in appsettings.json");
             _apiToken = _configuration["ApiSettings:SansiriApiToken"] ?? throw new ArgumentNullException(nameof(_apiToken), "API Token not found in appsettings.json");
         }
 
-        /// ✅ โหลดข้อมูลจาก `get-tb-sansiri-url-log`
+        /// ✅ ดึงข้อมูลประวัติการดาวน์โหลดจาก `get-tb-sansiri-url-log`
         public async Task<IActionResult> DownloadHistory()
         {
-            var data = await _apiService.GetDataAsync();
-            return View(data);
+            var data = await _apiService.GetDataAsync(); // ✅ เรียกใช้ Service เพื่อดึงข้อมูล
+            return View(data); // ✅ ส่งข้อมูลไปแสดงผลใน View
         }
 
-        /// ✅ โหลดข้อมูลจาก `get-tb-sansiri-url`
+        /// ✅ ดึงลิงก์ทั้งหมดจาก `get-tb-sansiri-url`
         public async Task<IActionResult> DownloadLinks()
         {
-            var sansiriUrls = await _apiService.GetSansiriUrlsAsync();
-            var categories = await _apiService.GetTableUrlCategory();
+            var sansiriUrls = await _apiService.GetSansiriUrlsAsync(); // ✅ ดึงข้อมูล URL ทั้งหมด
+            var categories = await _apiService.GetTableUrlCategory(); // ✅ ดึงข้อมูลประเภทของ URL
 
-            // ✅ Map id_category_url -> name
+            // ✅ สร้าง Dictionary สำหรับ mapping id_category_url -> name
             var categoryDict = categories.ToDictionary(c => c.id_category_url, c => c.name ?? "Unknown");
 
-            // ✅ ใส่ category_name เข้าไปใน sansiriUrls
+            // ✅ ใส่ category_name เข้าไปใน sansiriUrls โดยดูจาก id_category_url
             foreach (var item in sansiriUrls)
             {
                 item.category_name = item.id_category_url.HasValue && categoryDict.ContainsKey(item.id_category_url.Value)
@@ -48,40 +48,39 @@ namespace backup_website.Controllers
                     : "Unknown";
             }
 
-            return View(sansiriUrls);
+            return View(sansiriUrls); // ✅ ส่งข้อมูลไปแสดงผลใน View
         }
 
-        /// ✅ ฟังก์ชันกลาง ใช้ร่วมกันระหว่าง Update และ Delete
+        /// ✅ ฟังก์ชันกลางที่ใช้ร่วมกันระหว่าง Update และ Delete
         private async Task<IActionResult> SendPutRequest(object requestData)
         {
-            var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url"; // ✅ ใช้ Base URL + Endpoint
+            var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url"; // ✅ รวม Base URL + Endpoint API
 
-            var json = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonSerializer.Serialize(requestData); // ✅ แปลง object เป็น JSON
+            var content = new StringContent(json, Encoding.UTF8, "application/json"); // ✅ กำหนด Content-Type เป็น JSON
 
             _httpClient.DefaultRequestHeaders.Clear(); // ✅ ล้าง Header ก่อนใส่ใหม่
-            _httpClient.DefaultRequestHeaders.Add("token", _apiToken); // ✅ ใช้ Token ที่โหลดจาก `appsettings.json`
+            _httpClient.DefaultRequestHeaders.Add("token", _apiToken); // ✅ ใส่ API Token ใน Header
 
-            var response = await _httpClient.PutAsync(apiUrl, content);
-            var responseText = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.PutAsync(apiUrl, content); // ✅ ส่ง HTTP PUT Request ไปยัง API
+            var responseText = await response.Content.ReadAsStringAsync(); // ✅ อ่าน Response จาก API
 
             return response.IsSuccessStatusCode
-                ? Json(new { success = true })
-                : Json(new { success = false, error = responseText });
+                ? Json(new { success = true }) // ✅ ส่ง Response กลับถ้าสำเร็จ
+                : Json(new { success = false, error = responseText }); // ✅ ส่ง Error กลับถ้าไม่สำเร็จ
         }
 
-
-        /// ✅ อัปเดตสถานะของ URL (เปิด/ปิด)
+        /// ✅ อัปเดตสถานะของ URL (เปิด/ปิด) โดยรับค่า `url_id` และ `is_active`
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int url_id, bool is_active)
         {
             var requestData = new
             {
                 url_id = url_id,
-                is_active = is_active ? 1 : 0
+                is_active = is_active ? 1 : 0 // ✅ แปลงเป็น 1 (เปิด) หรือ 0 (ปิด)
             };
 
-            return await SendPutRequest(requestData);
+            return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
         }
 
         /// ✅ ลบ URL โดยส่ง `is_delete = 1`
@@ -91,29 +90,25 @@ namespace backup_website.Controllers
             var requestData = new
             {
                 url_id = url_id,
-                is_delete = 1
+                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
             };
 
-            return await SendPutRequest(requestData);
+            return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
         }
 
         /// ✅ ดึง Categories มาแสดงใน Dropdown
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
-            var categories = await _apiService.GetTableUrlCategory();
-            return Json(new { success = true, data = categories });
+            var categories = await _apiService.GetTableUrlCategory(); // ✅ ดึงข้อมูล Categories
+            return Json(new { success = true, data = categories }); // ✅ ส่งข้อมูล Categories กลับเป็น JSON
         }
 
-        /// ✅ อัปเดต URL จาก Modal (ใช้ใน Edit)
+        /// ✅ อัปเดต URL โดยรับค่าจาก Modal (ใช้ในหน้าแก้ไข)
         [HttpPost]
         public async Task<IActionResult> UpdateUrl([FromBody] UpdateUrlRequest request)
         {
-            Console.WriteLine($"📌 Debug - ข้อมูลที่ได้รับจาก Frontend: {JsonSerializer.Serialize(request)}");
-
-            return await SendPutRequest(request);
+            return await SendPutRequest(request); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
         }
-
-
     }
 }
