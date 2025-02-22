@@ -25,7 +25,7 @@ public class ApiService
     public async Task<List<backup_website.Models.TableSansiriUrl.Result>> GetSansiriUrlsAsync()
     {
         return await FetchApiData<TableSansiriUrl, backup_website.Models.TableSansiriUrl.Result>(
-            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url"
+            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url?is_delete=0"
         );
     }
 

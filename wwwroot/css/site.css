@@ -35,8 +35,22 @@ body {
   background-color: #2a3042db !important;
 }
 
+.dtr-details {
+  width: 100% !important;
+}
+
+td {
+  vertical-align: middle !important;
+}
+
 .default-datatable-responsive {
   border-collapse: collapse !important;
   border-spacing: 0 !important;
   width: 100% !important;
+}
+
+@media only screen and (max-width: 576px) {
+  .table-overflow-x-scroll {
+    overflow-x: scroll;
+  }
 }

@@ -8,6 +8,8 @@ namespace backup_website.Models.SansiriUrlLog
         public int? id_log { get; set; }
         public int? success_url { get; set; }
         public string? time_processing { get; set; }
+        public bool? status { get; set; }
+        public string? error_message { get; set; }
 
     }
 

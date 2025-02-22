@@ -6,8 +6,9 @@
     ViewData["UseDataTable"] = true;
 }
 
-<div>
-    <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap default-datatable-responsive">
+<div class="table-overflow-x-scroll">
+    <table id="datatable"
+        class="table table-striped table-bordered dt-responsive nowrap default-datatable-responsive overflow-x-scroll">
         <thead>
             <tr>
                 <th>ID</th>
@@ -15,6 +16,7 @@
                 <th>Thank You Link</th>
                 <th>Category</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,13 +27,18 @@
                     <td>@item.url</td>
                     <td>@item.url_thankyou</td>
                     <td>@item.category_name</td>
-                    <td class="text-center">
-                        <input class="form-check-input switch-status m-0" type="checkbox" id="switch_@item.url_id"
-                            data-url-id="@item.url_id" switch="none" @(item.is_active == true ? "checked" : "")>
-                        <label class="form-label m-0" for="switch_@item.url_id" data-on-label="On"
-                            data-off-label="Off"></label>
+                    <td>
+                        <span class="d-flex justify-content-lg-center justify-content-start">
+                            <input class="form-check-input switch-status m-0" type="checkbox" id="switch_@item.url_id"
+                                data-url-id="@item.url_id" switch="none" @(item.is_active == true ? "checked" : "")>
+                            <label class="form-label m-0" for="switch_@item.url_id" data-on-label="On"
+                                data-off-label="Off"></label>
+                        </span>
                     </td>
-
+                    <td class="text-center">
+                        <button type="button" class="btn btn-primary waves-effect waves-light btn-sm">Edit</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light btn-sm">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -43,15 +50,12 @@
     <script>
         $(document).ready(function () {
             var table = $('#datatable').DataTable();
-
             table.page.len(25).draw();
 
             // ✅ ใช้ document เพื่อให้ event listener คงอยู่แม้ DataTable รีโหลดข้อมูล
             $(document).on('change', '.switch-status', function () {
                 var urlId = $(this).data('url-id'); // ดึงค่า URL ID
                 var isActive = $(this).prop('checked'); // ดึงสถานะ true/false
-
-                console.log("Switch Clicked: ", urlId, isActive); // ✅ ตรวจสอบการทำงาน
 
                 // ส่งค่าไปที่ Controller
                 $.ajax({
@@ -61,42 +65,21 @@
                     success: function (response) {
                         if (response.success) {
                             console.log('Update Success');
+                            toastr.success("อัปเดตสำเร็จ!");
+
                         } else {
-                            console.error('Update Failed:', response.error);
-                            alert("อัปเดตไม่สำเร็จ! โปรดลองอีกครั้ง");
+                            toastr.error("อัปเดตไม่สำเร็จ! โปรดลองอีกครั้ง");
                         }
                     },
                     error: function () {
-                        alert("เกิดข้อผิดพลาดในการอัปเดต!");
+                        toastr.error("กิดข้อผิดพลาดในการอัปเดต!");
                     }
                 });
             });
 
-            // ✅ แก้ปัญหา DataTable รีโหลดแล้ว event หาย
+            // ✅ ให้ DataTable อัปเดต Event Listener โดยไม่ต้อง Bind ใหม่ซ้ำซ้อน
             table.on('draw', function () {
-                $('.switch-status').off('change').on('change', function () {
-                    var urlId = $(this).data('url-id'); // ดึงค่า URL ID
-                    var isActive = $(this).prop('checked'); // ดึงสถานะ true/false
-
-                    console.log("Switch Clicked (After Draw): ", urlId, isActive);
-
-                    $.ajax({
-                        url: '@Url.Action("UpdateStatus", "BackupWebsite")',
-                        type: 'POST',
-                        data: { url_id: urlId, is_active: isActive },
-                        success: function (response) {
-                            if (response.success) {
-                                console.log('Update Success');
-                            } else {
-                                console.error('Update Failed:', response.error);
-                                alert("อัปเดตไม่สำเร็จ! โปรดลองอีกครั้ง");
-                            }
-                        },
-                        error: function () {
-                            alert("เกิดข้อผิดพลาดในการอัปเดต!");
-                        }
-                    });
-                });
+                console.log("Table Redrawn - Events Still Active"); // ✅ ตรวจสอบว่า Event ยังคงอยู่
             });
         });
     </script>

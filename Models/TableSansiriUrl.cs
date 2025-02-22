@@ -4,6 +4,7 @@ namespace backup_website.Models.TableSansiriUrl
     {
         public int? id_category_url { get; set; }
         public bool? is_active { get; set; }
+        public bool? is_delete { get; set; }
         public string? url { get; set; }
         public string? category_name { get; set; }
         public int? url_id { get; set; }
