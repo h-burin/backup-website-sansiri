@@ -36,6 +36,7 @@ public class ApiService
     }
 
 
+
     /// 🔄 **ฟังก์ชันกลาง** ใช้สำหรับดึงข้อมูลจาก API (ช่วยลดโค้ดซ้ำ)
     private async Task<List<TItem>> FetchApiData<TResponse, TItem>(string url)
         where TResponse : class

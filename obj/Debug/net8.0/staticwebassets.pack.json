@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\img\\logo\\sansiri-logo-sm-white.png"
     },
     {
+      "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\cms-website-sansiri\\wwwroot\\js\\downloadLinks.js",
+      "PackagePath": "staticwebassets\\js\\downloadLinks.js"
+    },
+    {
       "Id": "C:\\Users\\Ext-Burin.Sa\\Desktop\\Programing\\cms-website-sansiri\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
