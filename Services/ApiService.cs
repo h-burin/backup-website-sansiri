@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using backup_website.Models.SansiriUrlLog;
 using backup_website.Models.TableSansiriUrl;
 using backup_website.Models.TableUrlCategory;
@@ -10,29 +6,32 @@ using backup_website.Models.TableUrlCategory;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
+    private readonly IConfiguration _configuration;
+    private readonly string _BaseUrlUrud;
 
-    public ApiService(HttpClient httpClient)
+    public ApiService(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
+        _configuration = configuration;
+        _BaseUrlUrud = _configuration["ApiSettings:BaseUrlUrud"] ?? throw new ArgumentNullException(nameof(_BaseUrlUrud), "API URL not found in appsettings.json");
     }
-
     public async Task<List<backup_website.Models.SansiriUrlLog.Result>> GetDataAsync()
     {
         return await FetchApiData<SansiriUrlLog, backup_website.Models.SansiriUrlLog.Result>(
-            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url-log"
+            $"{_BaseUrlUrud}get-tb-sansiri-url-log"
         );
     }
     public async Task<List<backup_website.Models.TableSansiriUrl.Result>> GetSansiriUrlsAsync()
     {
         return await FetchApiData<TableSansiriUrl, backup_website.Models.TableSansiriUrl.Result>(
-            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url?is_delete=0"
+            $"{_BaseUrlUrud}get-tb-sansiri-url"
         );
     }
 
     public async Task<List<backup_website.Models.TableUrlCategory.Result>> GetTableUrlCategory()
     {
         return await FetchApiData<TableUrlCategory, backup_website.Models.TableUrlCategory.Result>(
-            "http://prd-apigateway.sansiri.com/crud/get-tb-sansiri-url-category"
+            $"{_BaseUrlUrud}get-tb-sansiri-url-category"
         );
     }
 
@@ -41,8 +40,9 @@ public class ApiService
     private async Task<List<TItem>> FetchApiData<TResponse, TItem>(string url)
         where TResponse : class
     {
+        var token = _configuration["ApiSettings:SansiriApiToken"];
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        request.Headers.Add("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5MzEwODZjLWY0NjMtNGQ4Ni04ZTVjLTU2NmVmODhlMjVkZiIsImlhdCI6MTU0OTk1MTA4N30.ypF3f7RwVbTJ1_0UWCDszf0DJd1upvssZ5ecXgjzqPU"); // ✅ ใช้ Header "token"
+        request.Headers.Add("token", token);
 
         var response = await _httpClient.SendAsync(request);
 

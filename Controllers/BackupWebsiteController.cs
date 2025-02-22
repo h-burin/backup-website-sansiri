@@ -7,10 +7,14 @@ namespace backup_website.Controllers
     public class BackupWebsiteController : Controller
     {
         private readonly ApiService _apiService;
+        private readonly IConfiguration _configuration;
+        private readonly string _BaseUrlUrud;
 
-        public BackupWebsiteController(ApiService apiService)
+        public BackupWebsiteController(ApiService apiService, IConfiguration configuration)
         {
             _apiService = apiService;
+            _configuration = configuration;
+            _BaseUrlUrud = _configuration["ApiSettings:BaseUrlUrud"] ?? throw new ArgumentNullException(nameof(_BaseUrlUrud), "API URL not found in appsettings.json");
         }
 
         /// ✅ โหลดข้อมูลจาก `get-tb-sansiri-url-log`
@@ -38,7 +42,7 @@ namespace backup_website.Controllers
                 }
                 else
                 {
-                    item.category_name = "Unknown"; // เผื่อกรณีหาไม่เจอ
+                    item.category_name = "Unknown";
                 }
             }
 
@@ -46,14 +50,13 @@ namespace backup_website.Controllers
         }
 
 
-        /// ✅ อัปเดตสถานะ `is_active`
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int url_id, bool is_active)
         {
             using (var httpClient = new HttpClient())
             {
-                var apiUrl = "http://prd-apigateway.sansiri.com/crud/put-tb-sansiri-url";
-                var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5MzEwODZjLWY0NjMtNGQ4Ni04ZTVjLTU2NmVmODhlMjVkZiIsImlhdCI6MTU0OTk1MTA4N30.ypF3f7RwVbTJ1_0UWCDszf0DJd1upvssZ5ecXgjzqPU";
+                var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url";
+                var token = _configuration["ApiSettings:SansiriApiToken"];
 
                 var requestData = new
                 {
@@ -78,5 +81,40 @@ namespace backup_website.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUrl(int url_id)
+        {
+
+            using (var httpClient = new HttpClient())
+            {
+                var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url";
+                var token = _configuration["ApiSettings:SansiriApiToken"];
+
+                var requestData = new
+                {
+                    url_id = url_id,
+                    is_delete = 1
+                };
+
+                var json = JsonSerializer.Serialize(requestData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                httpClient.DefaultRequestHeaders.Add("token", token);
+
+                var response = await httpClient.PutAsync(apiUrl, content);
+                var responseText = await response.Content.ReadAsStringAsync();
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, error = responseText });
+                }
+            }
+        }
+
     }
 }
