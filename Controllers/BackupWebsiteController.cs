@@ -108,7 +108,69 @@ namespace backup_website.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUrl([FromBody] UpdateUrlRequest request)
         {
-            return await SendPutRequest(request); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
+            // ✅ Debug Log เพื่อตรวจสอบค่าที่ได้รับจาก Frontend
+            Console.WriteLine($"📌 Debug - ค่าที่ได้รับจาก Frontend: {JsonSerializer.Serialize(request)}");
+
+            // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
+            if (request == null || string.IsNullOrEmpty(request.url) || request.id_category_url == null)
+            {
+                return Json(new { success = false, error = "Invalid input data" });
+            }
+
+            // ✅ แปลง `bool?` เป็น `int?` เพื่อให้รองรับค่า `0` และ `1`
+            var requestData = new
+            {
+                url_id = request.url_id,
+                url = request.url,
+                url_thankyou = request.url_thankyou ?? "",
+                id_category_url = request.id_category_url,
+                is_active = request.is_active.HasValue ? Convert.ToInt32(request.is_active.Value) : 1 // ✅ ใช้ Convert.ToInt32()
+            };
+
+            // ✅ Debug Log ค่าที่จะถูกส่งไป API
+            Console.WriteLine($"📌 Debug - requestData ที่จะส่งไป API: {JsonSerializer.Serialize(requestData)}");
+
+            return await SendPutRequest(requestData);
         }
+
+        private async Task<IActionResult> SendPostRequest(object requestData)
+        {
+            var apiUrl = $"{_BaseUrlUrud}post-tb-sansiri-url"; // ✅ เปลี่ยนเป็น API `POST`
+
+            var json = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("token", _apiToken);
+
+            var response = await _httpClient.PostAsync(apiUrl, content);
+            var responseText = await response.Content.ReadAsStringAsync();
+
+            return response.IsSuccessStatusCode
+                ? Json(new { success = true })
+                : Json(new { success = false, error = responseText });
+        }
+
+
+        public async Task<IActionResult> AddNewLink([FromBody] AddUrlRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.url) || request.id_category_url == null)
+            {
+                return Json(new { success = false, error = "Invalid input data" });
+            }
+
+            var requestData = new
+            {
+                url = request.url,
+                url_thankyou = request.url_thankyou ?? "",
+                id_category_url = request.id_category_url,
+                is_active = 1, // ✅ เปิดใช้งานเริ่มต้น
+            };
+
+            return await SendPostRequest(requestData);
+
+        }
+
+
     }
 }

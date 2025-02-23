@@ -1,0 +1,43 @@
+<!-- ✅ Modal แก้ไขข้อมูล -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Download Link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" novalidate> <!-- ✅ เพิ่ม novalidate เพื่อควบคุม validation เอง -->
+                    <input type="hidden" id="editUrlId">
+
+                    <!-- ✅ Download URL (ห้ามเว้นว่าง) -->
+                    <div class="mb-3">
+                        <label for="editUrl" class="form-label">Download URL</label>
+                        <input type="text" class="form-control" id="editUrl" required>
+                        <div class="invalid-feedback">Please provide a valid Download URL.</div>
+                    </div>
+
+                    <!-- ✅ Thank You URL (สามารถเว้นว่างได้) -->
+                    <div class="mb-3">
+                        <label for="editThankYouUrl" class="form-label">Thank You URL</label>
+                        <input type="text" class="form-control" id="editThankYouUrl">
+                    </div>
+
+                    <!-- ✅ Category (ห้ามเว้นว่าง) -->
+                    <div class="mb-3">
+                        <label for="editCategory" class="form-label">Category</label>
+                        <select class="form-select" id="editCategory" required>
+                            <option value="">Select Category</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a valid category.</div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEditBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
