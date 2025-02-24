@@ -14,20 +14,13 @@
                 </li>
 
                 <li>
-                    <a asp-controller="Home" asp-action="Privacy" class="waves-effect">
-                        <i class="ti-pencil-alt"></i>
-                        <span>Privacy</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ti-shield"></i>
                         <span>Backup Website</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a asp-controller="BackupWebsite" asp-action="DownloadLinks">Download Links</a></li>
-                        <li><a asp-controller="BackupWebsite" asp-action="DownloadHistory">Download History</a></li>
+                        <li><a href="@Url.RouteUrl("DownloadHistoryRoute")">Download History</a></li>
+                        <li><a href="@Url.RouteUrl("DownloadLinksRoute")">Download Links</a></li>
                     </ul>
                 </li>
 

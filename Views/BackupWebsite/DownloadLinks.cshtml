@@ -1,28 +1,13 @@
 @using backup_website.Models.TableSansiriUrl
+@using Microsoft.AspNetCore.Html
 @model List<Result>
 
 @{
     ViewData["Title"] = "Download Links";
+    ViewData["Description"] = "This page allows you to add, edit, or delete download links for various types of information. You can categorize links and enable or disable them as needed.";
     ViewData["UseDataTable"] = true;
+    ViewData["ActionButton"] = new HtmlString("<button type='button' class='btn btn-primary waves-effect waves-light' id='addNewLinkBtn' data-bs-toggle='modal' data-bs-target='#editModal'>  <i class='ti-plus me-2'></i> Add</button>");
 }
-
-<div class="row">
-    <div class="col-9">
-        <h4 class="card-title">Manage Download Links</h4>
-        <p class="card-title-desc">
-            This page allows you to add, edit, or delete download links for various types of information. You can
-            categorize links and enable or disable them as needed.
-        </p>
-    </div>
-    <div class="col-3 text-end">
-        <button type="button" class="btn btn-primary waves-effect waves-light" id="addNewLinkBtn" data-bs-toggle="modal"
-            data-bs-target="#editModal">
-            Add
-        </button>
-
-    </div>
-</div>
-
 
 <div class="table-overflow-x-scroll">
     <table id="datatable"

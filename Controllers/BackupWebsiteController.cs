@@ -24,7 +24,9 @@ namespace backup_website.Controllers
             _apiToken = _configuration["ApiSettings:SansiriApiToken"] ?? throw new ArgumentNullException(nameof(_apiToken), "API Token not found in appsettings.json");
         }
 
-        /// ✅ ดึงข้อมูลประวัติการดาวน์โหลดจาก `get-tb-sansiri-url-log`
+
+        [Route("download-history", Name = "DownloadHistoryRoute")]
+        [HttpGet]
         public async Task<IActionResult> DownloadHistory()
         {
             var data = await _apiService.GetDataAsync(); // ✅ เรียกใช้ Service เพื่อดึงข้อมูล
@@ -32,16 +34,20 @@ namespace backup_website.Controllers
         }
 
 
-        [HttpGet("BackupWebsite/DownloadDetail/{id_log}")]
+        [Route("download-history/{id_log}", Name = "DownloadDetailRoute")]
+        [HttpGet]
         public async Task<IActionResult> DownloadDetail(int id_log)
         {
             var data = await _apiService.GetTableSansiriUrlLogDetail(id_log);
+            ViewData["Title"] = $"Detail Log ID: {id_log}";
             return View(data);
         }
 
 
 
-        /// ✅ ดึงลิงก์ทั้งหมดจาก `get-tb-sansiri-url`
+
+        [Route("download-links", Name = "DownloadLinksRoute")]
+        [HttpGet]
         public async Task<IActionResult> DownloadLinks()
         {
             var sansiriUrls = await _apiService.GetSansiriUrlsAsync(); // ✅ ดึงข้อมูล URL ทั้งหมด

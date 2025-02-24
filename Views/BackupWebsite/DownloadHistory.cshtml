@@ -3,17 +3,9 @@
 
 @{
     ViewData["Title"] = "Download History";
+    ViewData["Description"] = "This page displays an overview of download activity, including statuses, processing times, and success rates. No modifications can be made.";
     ViewData["UseDataTable"] = true;
 }
-
-<div class="row">
-    <div class="col-12">
-        <p class="card-title-desc">
-            This page displays an overview of download activity, including statuses, processing times, and success
-            rates. No modifications can be made.
-        </p>
-    </div>
-</div>
 
 <div class="table-overflow-x-scroll">
     <table id="datatable-buttons"
@@ -53,11 +45,10 @@
                         }
                     </td>
                     <td class="text-center">
-                        <a href="/BackupWebsite/DownloadDetail/@item.id_log"
+                        <a href="@Url.RouteUrl("DownloadDetailRoute", new { id_log = item.id_log })"
                             class="btn btn-primary btn-sm waves-effect waves-light">
                             View
                         </a>
-
                     </td>
                     <td>@item.error_message</td>
                 </tr>

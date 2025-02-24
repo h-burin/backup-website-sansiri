@@ -24,20 +24,60 @@
       <div class="page-content">
         <div class="container-fluid">
 
-          <!-- start page title -->
+          <!-- Start page title -->
           <div class="page-title-box">
             <div class="row align-items-center">
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <h6 class="page-title">@ViewData["Title"]</h6>
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item"><a href="#">Veltrix</a></li>
-                  <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Data tables</li>
-                </ol>
+                <p>@ViewData["Description"]</p>
+
+                @* Start Breadcrumb *@
+                @using System.Globalization;
+
+                @{
+                  var path = Context.Request.Path.HasValue ? Context.Request.Path.Value.Trim('/') : "";
+                  var segments = path.Split('/');
+
+                  // ไม่แสดง breadcrumb หาก URL มีแค่ 1 segment เช่น /download-history หรือ /download-links
+                  if (segments.Length > 1)
+                  {
+                    <ol class="breadcrumb m-0">
+                      @for (var i = 0; i < segments.Length; i++)
+                      {
+                        var url = "/" + string.Join("/", segments.Take(i + 1)); // สร้าง URL ทีละลำดับ
+                        var isLast = (i == segments.Length - 1); // เช็คว่าเป็นตัวสุดท้ายหรือไม่
+
+                        // ✅ แปลงข้อความให้ตัวแรกเป็น Uppercase
+                        var text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(segments[i].Replace("-", " "));
+
+                        <li class="breadcrumb-item @(isLast ? "active" : "")">
+                          @if (!isLast)
+                          {
+                            <a href="@url">@text</a>
+                          }
+                          else
+                          {
+                            @text
+                          }
+                        </li>
+                      }
+                    </ol>
+                  }
+                }
+
+                @* End Breadcrumb *@
+
+              </div>
+              <div class="col-md-6 text-md-end">
+                @if (ViewData["ActionButton"] != null)
+                {
+                  @Html.Raw(ViewData["ActionButton"])
+                }
               </div>
             </div>
           </div>
           <!-- end page title -->
+
 
 
           <div class="row">
