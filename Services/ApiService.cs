@@ -2,7 +2,7 @@ using System.Text.Json;
 using backup_website.Models.SansiriUrlLog;
 using backup_website.Models.TableSansiriUrl;
 using backup_website.Models.TableUrlCategory;
-
+using backup_website.Models.TableSansiriUrlLogDetail;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
@@ -34,6 +34,19 @@ public class ApiService
             $"{_BaseUrlUrud}get-tb-sansiri-url-category"
         );
     }
+
+    public async Task<List<backup_website.Models.TableSansiriUrlLogDetail.Result>> GetTableSansiriUrlLogDetail(int? id_log = null)
+    {
+        string apiUrl = $"{_BaseUrlUrud}get-tb-sansiri-url-log-detail?size=9999&page=1";
+
+        if (id_log.HasValue)
+        {
+            apiUrl += $"&id_log={id_log.Value}"; // ✅ เพิ่ม id_log เข้าไปใน URL ถ้ามีค่า
+        }
+
+        return await FetchApiData<TableSansiriUrlLogDetail, backup_website.Models.TableSansiriUrlLogDetail.Result>(apiUrl);
+    }
+
 
 
 

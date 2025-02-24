@@ -31,6 +31,16 @@ namespace backup_website.Controllers
             return View(data); // ✅ ส่งข้อมูลไปแสดงผลใน View
         }
 
+
+        [HttpGet("BackupWebsite/DownloadDetail/{id_log}")]
+        public async Task<IActionResult> DownloadDetail(int id_log)
+        {
+            var data = await _apiService.GetTableSansiriUrlLogDetail(id_log);
+            return View(data);
+        }
+
+
+
         /// ✅ ดึงลิงก์ทั้งหมดจาก `get-tb-sansiri-url`
         public async Task<IActionResult> DownloadLinks()
         {

@@ -6,6 +6,14 @@
     ViewData["UseDataTable"] = true;
 }
 
+<div class="row">
+    <div class="col-12">
+        <p class="card-title-desc">
+            This page displays an overview of download activity, including statuses, processing times, and success
+            rates. No modifications can be made.
+        </p>
+    </div>
+</div>
 
 <div class="table-overflow-x-scroll">
     <table id="datatable-buttons"
@@ -18,8 +26,9 @@
                 <th>Success URL</th>
                 <th>Failed URL</th>
                 <th>Time Processing</th>
-                <th>Status</th>
-                @* <th>Message</th> *@
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
+                <th>Message</th>
 
             </tr>
         </thead>
@@ -43,7 +52,14 @@
                             <i class="display-4 font-size-24 ion ion ion-md-close-circle-outline text-danger"></i>
                         }
                     </td>
-                    @* <td>@item.error_message</td> *@
+                    <td class="text-center">
+                        <a href="/BackupWebsite/DownloadDetail/@item.id_log"
+                            class="btn btn-primary btn-sm waves-effect waves-light">
+                            View
+                        </a>
+
+                    </td>
+                    <td>@item.error_message</td>
                 </tr>
             }
         </tbody>
@@ -54,7 +70,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var table = $('#datatable').DataTable();
+            var table = $('#datatable-buttons').DataTable();
 
             // ✅ ตั้งค่า pageLength ใหม่ โดยไม่ต้อง `destroy()`
             table.page.len(25).draw();
