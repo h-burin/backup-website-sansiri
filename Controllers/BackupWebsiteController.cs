@@ -77,7 +77,7 @@ namespace backup_website.Controllers
             var requestData = new
             {
                 url_id = url_id,
-                is_active = is_active ? 1 : 0 // ✅ แปลงเป็น 1 (เปิด) หรือ 0 (ปิด)
+                is_active = is_active
             };
 
             return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
@@ -108,8 +108,6 @@ namespace backup_website.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUrl([FromBody] UpdateUrlRequest request)
         {
-            // ✅ Debug Log เพื่อตรวจสอบค่าที่ได้รับจาก Frontend
-            Console.WriteLine($"📌 Debug - ค่าที่ได้รับจาก Frontend: {JsonSerializer.Serialize(request)}");
 
             // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
             if (request == null || string.IsNullOrEmpty(request.url) || request.id_category_url == null)
@@ -117,18 +115,13 @@ namespace backup_website.Controllers
                 return Json(new { success = false, error = "Invalid input data" });
             }
 
-            // ✅ แปลง `bool?` เป็น `int?` เพื่อให้รองรับค่า `0` และ `1`
             var requestData = new
             {
                 url_id = request.url_id,
                 url = request.url,
                 url_thankyou = request.url_thankyou ?? "",
                 id_category_url = request.id_category_url,
-                is_active = request.is_active.HasValue ? Convert.ToInt32(request.is_active.Value) : 1 // ✅ ใช้ Convert.ToInt32()
             };
-
-            // ✅ Debug Log ค่าที่จะถูกส่งไป API
-            Console.WriteLine($"📌 Debug - requestData ที่จะส่งไป API: {JsonSerializer.Serialize(requestData)}");
 
             return await SendPutRequest(requestData);
         }
@@ -164,7 +157,7 @@ namespace backup_website.Controllers
                 url = request.url,
                 url_thankyou = request.url_thankyou ?? "",
                 id_category_url = request.id_category_url,
-                is_active = 1, // ✅ เปิดใช้งานเริ่มต้น
+                is_active = 1,
             };
 
             return await SendPostRequest(requestData);

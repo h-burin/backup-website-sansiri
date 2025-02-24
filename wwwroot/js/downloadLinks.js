@@ -6,7 +6,7 @@ $(document).ready(function () {
   // ✅ ฟังก์ชันเปลี่ยนสถานะ (เปิด/ปิด Switch)
   $(document).on("change", ".switch-status", function () {
     var urlId = $(this).data("url-id");
-    var isActive = $(this).prop("checked") ? 1 : 0; // ✅ แปลงเป็น 1 หรือ 0
+    var isActive = $(this).prop("checked");
 
     $.ajax({
       url: "/BackupWebsite/UpdateStatus",
@@ -14,13 +14,13 @@ $(document).ready(function () {
       data: { url_id: urlId, is_active: isActive },
       success: function (response) {
         if (response.success) {
-          toastr.success("อัปเดตสถานะสำเร็จ!");
+          toastr.success("Status updated successfully!");
         } else {
-          toastr.error("อัปเดตไม่สำเร็จ! โปรดลองอีกครั้ง");
+          toastr.error("Update failed! Please try again.");
         }
       },
       error: function () {
-        toastr.error("เกิดข้อผิดพลาดในการอัปเดต!");
+        toastr.error("An error occurred while updating!");
       },
     });
   });
@@ -45,16 +45,16 @@ $(document).ready(function () {
         data: { url_id: deleteUrlId },
         success: function (response) {
           if (response.success) {
-            toastr.success("ลบข้อมูลเรียบร้อยแล้ว!");
+            toastr.success("Data deleted successfully!");
             $(`.delete-btn[data-url-id='${deleteUrlId}']`)
               .parents("tr")
               .remove();
           } else {
-            toastr.error("ไม่สามารถลบข้อมูลได้ โปรดลองอีกครั้ง");
+            toastr.error("Unable to delete data. Please try again.");
           }
         },
         error: function () {
-          toastr.error("เกิดข้อผิดพลาดในการลบข้อมูล!");
+          toastr.error("An error occurred while deleting data!");
         },
       });
 
@@ -68,12 +68,10 @@ $(document).ready(function () {
     var url = $(this).data("url");
     var thankYouUrl = $(this).data("thankyou-url");
     var categoryId = $(this).data("category-id");
-    var isActive = $(this).data("is-active") ? 1 : 0; // ✅ ดึงค่า is_active
 
     $("#editUrlId").val(urlId);
     $("#editUrl").val(url);
     $("#editThankYouUrl").val(thankYouUrl);
-    $("#editIsActive").prop("checked", isActive === 1);
 
     // ✅ โหลด Categories ก่อนเปิด Modal
     loadCategories(function () {
@@ -96,7 +94,6 @@ $(document).ready(function () {
     $("#editUrlId").val("");
     $("#editUrl").val("");
     $("#editThankYouUrl").val("");
-    $("#editIsActive").prop("checked", true); // ✅ ตั้งค่าเป็นเปิดโดย Default
 
     loadCategories(function () {
       $("#editCategory").val("");
@@ -124,13 +121,11 @@ $(document).ready(function () {
     var url = $("#editUrl").val().trim();
     var thankYouUrl = $("#editThankYouUrl").val().trim();
     var categoryId = $("#editCategory").val();
-    var isActive = $("#editIsActive").prop("checked") ? 1 : 0;
 
     var requestData = {
       url: url,
       url_thankyou: thankYouUrl || "",
       id_category_url: categoryId,
-      is_active: isActive,
     };
 
     if (isEdit && urlId) {
@@ -144,8 +139,6 @@ $(document).ready(function () {
     if (isEdit && urlId) {
       requestData.url_id = urlId;
     }
-
-    console.log("📌 Debug - requestData ก่อนส่งไป API:", requestData);
 
     $.ajax({
       url: apiUrl,
@@ -164,7 +157,6 @@ $(document).ready(function () {
         }
       },
       error: function (xhr) {
-        console.log("❌ Debug - API Error:", xhr.responseText);
         toastr.error("Error updating data.");
       },
     });
