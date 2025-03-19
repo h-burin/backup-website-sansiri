@@ -4,6 +4,7 @@ namespace backup_website.Models.TableUrlCategory
     {
         public int id_category_url { get; set; }
         public string? name { get; set; }
+        public bool? is_delete { get; set; }
     }
 
     public class TableUrlCategory

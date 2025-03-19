@@ -24,6 +24,14 @@ namespace backup_website.Controllers
             _apiToken = _configuration["ApiSettings:SansiriApiToken"] ?? throw new ArgumentNullException(nameof(_apiToken), "API Token not found in appsettings.json");
         }
 
+        [Route("download-category", Name = "DownloadCategoryRoute")]
+        [HttpGet]
+        public async Task<IActionResult> DownloadCategory()
+        {
+            var data = await _apiService.GetTableUrlCategory();
+            return View(data);
+        }
+
 
         [Route("download-history", Name = "DownloadHistoryRoute")]
         [HttpGet]
@@ -112,6 +120,18 @@ namespace backup_website.Controllers
             return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(int id_category_url)
+        {
+            var requestData = new
+            {
+                id_category_url = id_category_url,
+                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
+            };
+
+            return await SendPutRequestCategory(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
+        }
+
         /// ✅ ดึง Categories มาแสดงใน Dropdown
         [HttpGet]
         public async Task<IActionResult> GetCategories()
@@ -140,6 +160,43 @@ namespace backup_website.Controllers
             };
 
             return await SendPutRequest(requestData);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryRequest request)
+        {
+
+            // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
+            if (request == null || string.IsNullOrEmpty(request.name) || request.id_category_url == null)
+            {
+                return Json(new { success = false, error = "Invalid input data" });
+            }
+
+            var requestData = new
+            {
+                id_category_url = request.id_category_url,
+                name = request.name,
+            };
+
+            return await SendPutRequestCategory(requestData);
+        }
+
+        private async Task<IActionResult> SendPutRequestCategory(object requestData)
+        {
+            var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url-category"; // ✅ รวม Base URL + Endpoint API
+
+            var json = JsonSerializer.Serialize(requestData); // ✅ แปลง object เป็น JSON
+            var content = new StringContent(json, Encoding.UTF8, "application/json"); // ✅ กำหนด Content-Type เป็น JSON
+
+            _httpClient.DefaultRequestHeaders.Clear(); // ✅ ล้าง Header ก่อนใส่ใหม่
+            _httpClient.DefaultRequestHeaders.Add("token", _apiToken); // ✅ ใส่ API Token ใน Header
+
+            var response = await _httpClient.PutAsync(apiUrl, content); // ✅ ส่ง HTTP PUT Request ไปยัง API
+            var responseText = await response.Content.ReadAsStringAsync(); // ✅ อ่าน Response จาก API
+
+            return response.IsSuccessStatusCode
+                ? Json(new { success = true }) // ✅ ส่ง Response กลับถ้าสำเร็จ
+                : Json(new { success = false, error = responseText }); // ✅ ส่ง Error กลับถ้าไม่สำเร็จ
         }
 
         private async Task<IActionResult> SendPostRequest(object requestData)
@@ -179,7 +236,6 @@ namespace backup_website.Controllers
             return await SendPostRequest(requestData);
 
         }
-
 
     }
 }

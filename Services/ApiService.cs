@@ -31,7 +31,7 @@ public class ApiService
     public async Task<List<backup_website.Models.TableUrlCategory.Result>> GetTableUrlCategory()
     {
         return await FetchApiData<TableUrlCategory, backup_website.Models.TableUrlCategory.Result>(
-            $"{_BaseUrlUrud}get-tb-sansiri-url-category"
+            $"{_BaseUrlUrud}get-tb-sansiri-url-category?is_delete=0"
         );
     }
 

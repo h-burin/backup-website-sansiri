@@ -1,0 +1,97 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = backup_website
+build_property.RootNamespace = backup_website
+build_property.ProjectDir = C:\Users\Ext-Burin.Sa\Desktop\Programing\cms-website-sansiri\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Ext-Burin.Sa\Desktop\Programing\cms-website-sansiri
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/BackupWebsite/DownloadCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFja3VwV2Vic2l0ZVxEb3dubG9hZENhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/BackupWebsite/DownloadDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFja3VwV2Vic2l0ZVxEb3dubG9hZERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/BackupWebsite/DownloadHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFja3VwV2Vic2l0ZVxEb3dubG9hZEhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/BackupWebsite/DownloadLinks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFja3VwV2Vic2l0ZVxEb3dubG9hZExpbmtzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/DownloadCategory/_DownloadCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXERvd25sb2FkQ2F0ZWdvcnlcX0Rvd25sb2FkQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/DownloadLinks/_UpdateModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXERvd25sb2FkTGlua3NcX1VwZGF0ZU1vZGFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/_DeleteConfirmModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXF9EZWxldGVDb25maXJtTW9kYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/_Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXF9OYXZiYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/_Sidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXF9TaWRlYmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/partials/_SidebarSettings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXHBhcnRpYWxzXF9TaWRlYmFyU2V0dGluZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/_Scripts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TY3JpcHRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/_Styles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TdHlsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ext-Burin.Sa/Desktop/Programing/cms-website-sansiri/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-mywq2xnqsl
