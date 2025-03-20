@@ -38,13 +38,21 @@ $(document).ready(function () {
     var requestData;
 
     if (isEdit) {
-      var requestData = {
-        id_category_url: categoryId,
-        name: categoryName,
+      requestData = {
+        Result: [
+          {
+            id_category_url: parseInt(categoryId), // แปลงให้เป็นตัวเลข
+            name: categoryName,
+          },
+        ],
       };
     } else {
-      var requestData = {
-        name: categoryName,
+      requestData = {
+        Result: [
+          {
+            name: categoryName,
+          },
+        ],
       };
     }
 

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
-using backup_website.Models.Requests; // ✅ นำเข้า Model ที่ใช้รับค่าจาก Frontend
+using backup_website.Models.Requests;
+using backup_website.Models.TableUrlCategory; // ✅ นำเข้า Model ที่ใช้รับค่าจาก Frontend
 
 namespace backup_website.Controllers
 {
@@ -51,11 +52,9 @@ namespace backup_website.Controllers
             return View(data);
         }
 
-
-
-
         [Route("download-links", Name = "DownloadLinksRoute")]
         [HttpGet]
+
         public async Task<IActionResult> DownloadLinks()
         {
             var sansiriUrls = await _apiService.GetSansiriUrlsAsync(); // ✅ ดึงข้อมูล URL ทั้งหมด
@@ -72,29 +71,9 @@ namespace backup_website.Controllers
                     : "Unknown";
             }
 
-            return View(sansiriUrls); // ✅ ส่งข้อมูลไปแสดงผลใน View
+            return View(sansiriUrls);
         }
 
-        /// ✅ ฟังก์ชันกลางที่ใช้ร่วมกันระหว่าง Update และ Delete
-        private async Task<IActionResult> SendPutRequest(object requestData)
-        {
-            var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url"; // ✅ รวม Base URL + Endpoint API
-
-            var json = JsonSerializer.Serialize(requestData); // ✅ แปลง object เป็น JSON
-            var content = new StringContent(json, Encoding.UTF8, "application/json"); // ✅ กำหนด Content-Type เป็น JSON
-
-            _httpClient.DefaultRequestHeaders.Clear(); // ✅ ล้าง Header ก่อนใส่ใหม่
-            _httpClient.DefaultRequestHeaders.Add("token", _apiToken); // ✅ ใส่ API Token ใน Header
-
-            var response = await _httpClient.PutAsync(apiUrl, content); // ✅ ส่ง HTTP PUT Request ไปยัง API
-            var responseText = await response.Content.ReadAsStringAsync(); // ✅ อ่าน Response จาก API
-
-            return response.IsSuccessStatusCode
-                ? Json(new { success = true }) // ✅ ส่ง Response กลับถ้าสำเร็จ
-                : Json(new { success = false, error = responseText }); // ✅ ส่ง Error กลับถ้าไม่สำเร็จ
-        }
-
-        /// ✅ อัปเดตสถานะของ URL (เปิด/ปิด) โดยรับค่า `url_id` และ `is_active`
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(int url_id, bool is_active)
         {
@@ -104,10 +83,9 @@ namespace backup_website.Controllers
                 is_active = is_active
             };
 
-            return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
         }
 
-        /// ✅ ลบ URL โดยส่ง `is_delete = 1`
         [HttpPost]
         public async Task<IActionResult> DeleteUrl(int url_id)
         {
@@ -117,7 +95,8 @@ namespace backup_website.Controllers
                 is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
             };
 
-            return await SendPutRequest(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
+
         }
 
         [HttpPost]
@@ -129,10 +108,10 @@ namespace backup_website.Controllers
                 is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
             };
 
-            return await SendPutRequestCategory(requestData); // ✅ ใช้ฟังก์ชันกลาง SendPutRequest
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
+
         }
 
-        /// ✅ ดึง Categories มาแสดงใน Dropdown
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -140,7 +119,6 @@ namespace backup_website.Controllers
             return Json(new { success = true, data = categories }); // ✅ ส่งข้อมูล Categories กลับเป็น JSON
         }
 
-        /// ✅ อัปเดต URL โดยรับค่าจาก Modal (ใช้ในหน้าแก้ไข)
         [HttpPost]
         public async Task<IActionResult> UpdateUrl([FromBody] UpdateUrlRequest request)
         {
@@ -159,66 +137,27 @@ namespace backup_website.Controllers
                 id_category_url = request.id_category_url,
             };
 
-            return await SendPutRequest(requestData);
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryRequest request)
+        public async Task<IActionResult> UpdateCategory([FromBody] TableUrlCategory request)
         {
 
             // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
-            if (request == null || string.IsNullOrEmpty(request.name) || request.id_category_url == null)
+            if (request == null || string.IsNullOrEmpty(request.Result[0].name) || request.Result[0].id_category_url == null)
             {
                 return Json(new { success = false, error = "Invalid input data" });
             }
 
             var requestData = new
             {
-                id_category_url = request.id_category_url,
-                name = request.name,
+                id_category_url = request.Result[0].id_category_url,
+                name = request.Result[0].name,
             };
 
-            return await SendPutRequestCategory(requestData);
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
         }
-
-        private async Task<IActionResult> SendPutRequestCategory(object requestData)
-        {
-            var apiUrl = $"{_BaseUrlUrud}put-tb-sansiri-url-category"; // ✅ รวม Base URL + Endpoint API
-
-            var json = JsonSerializer.Serialize(requestData); // ✅ แปลง object เป็น JSON
-            var content = new StringContent(json, Encoding.UTF8, "application/json"); // ✅ กำหนด Content-Type เป็น JSON
-
-            _httpClient.DefaultRequestHeaders.Clear(); // ✅ ล้าง Header ก่อนใส่ใหม่
-            _httpClient.DefaultRequestHeaders.Add("token", _apiToken); // ✅ ใส่ API Token ใน Header
-
-            var response = await _httpClient.PutAsync(apiUrl, content); // ✅ ส่ง HTTP PUT Request ไปยัง API
-            var responseText = await response.Content.ReadAsStringAsync(); // ✅ อ่าน Response จาก API
-
-            return response.IsSuccessStatusCode
-                ? Json(new { success = true }) // ✅ ส่ง Response กลับถ้าสำเร็จ
-                : Json(new { success = false, error = responseText }); // ✅ ส่ง Error กลับถ้าไม่สำเร็จ
-        }
-
-
-
-        private async Task<IActionResult> SendPostRequest(object requestData)
-        {
-            var apiUrl = $"{_BaseUrlUrud}post-tb-sansiri-url"; // ✅ เปลี่ยนเป็น API `POST`
-
-            var json = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Add("token", _apiToken);
-
-            var response = await _httpClient.PostAsync(apiUrl, content);
-            var responseText = await response.Content.ReadAsStringAsync();
-
-            return response.IsSuccessStatusCode
-                ? Json(new { success = true })
-                : Json(new { success = false, error = responseText });
-        }
-
 
         public async Task<IActionResult> AddNewLink([FromBody] AddUrlRequest request)
         {
@@ -235,37 +174,48 @@ namespace backup_website.Controllers
                 is_active = 1,
             };
 
-            return await SendPostRequest(requestData);
-
+            return await SendHttpRequest(requestData, "post-tb-sansiri-url", HttpMethod.Post);
         }
 
-        public async Task<IActionResult> AddCategory([FromBody] UpdateCategoryRequest request)
+        public async Task<IActionResult> AddCategory([FromBody] TableUrlCategory request)
         {
-            if (request == null || string.IsNullOrEmpty(request.name))
+            if (request == null || string.IsNullOrEmpty(request.Result[0].name))
             {
                 return Json(new { success = false, error = "Invalid input data" });
             }
 
             var requestData = new
             {
-                name = request.name,
+                name = request.Result[0].name,
             };
 
-            return await SendPostRequestCategory(requestData);
-
+            return await SendHttpRequest(requestData, "post-tb-sansiri-url-category", HttpMethod.Post);
         }
 
-        private async Task<IActionResult> SendPostRequestCategory(object requestData)
+        private async Task<IActionResult> SendHttpRequest(object requestData, string endpoint, HttpMethod httpMethod)
         {
-            var apiUrl = $"{_BaseUrlUrud}post-tb-sansiri-url-category";
-
+            var apiUrl = $"{_BaseUrlUrud}{endpoint}"; // ✅ ต่อ Base URL + Endpoint อัตโนมัติ
             var json = JsonSerializer.Serialize(requestData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("token", _apiToken);
 
-            var response = await _httpClient.PostAsync(apiUrl, content);
+            HttpResponseMessage response;
+
+            if (httpMethod == HttpMethod.Post)
+            {
+                response = await _httpClient.PostAsync(apiUrl, content);
+            }
+            else if (httpMethod == HttpMethod.Put)
+            {
+                response = await _httpClient.PutAsync(apiUrl, content);
+            }
+            else
+            {
+                return Json(new { success = false, error = "Unsupported HTTP method" });
+            }
+
             var responseText = await response.Content.ReadAsStringAsync();
 
             return response.IsSuccessStatusCode
