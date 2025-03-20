@@ -120,8 +120,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>g8q9r1fgxu</Fingerprint>
-      <Integrity>EHzEph1wK3paUWEaKnwu4Rl1sF69cI1XcotKMzQe8cc=</Integrity>
+      <Fingerprint>pk9xuf1c25</Fingerprint>
+      <Integrity>uTjYP8kRFqlrYbbeobs/NgVfbpF94R8PLD8MtZH2f4I=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\downloadCategory.js'))</OriginalItemSpec>

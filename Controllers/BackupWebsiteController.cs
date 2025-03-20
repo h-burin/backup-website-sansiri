@@ -199,6 +199,8 @@ namespace backup_website.Controllers
                 : Json(new { success = false, error = responseText }); // ✅ ส่ง Error กลับถ้าไม่สำเร็จ
         }
 
+
+
         private async Task<IActionResult> SendPostRequest(object requestData)
         {
             var apiUrl = $"{_BaseUrlUrud}post-tb-sansiri-url"; // ✅ เปลี่ยนเป็น API `POST`
@@ -235,6 +237,40 @@ namespace backup_website.Controllers
 
             return await SendPostRequest(requestData);
 
+        }
+
+        public async Task<IActionResult> AddCategory([FromBody] UpdateCategoryRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.name))
+            {
+                return Json(new { success = false, error = "Invalid input data" });
+            }
+
+            var requestData = new
+            {
+                name = request.name,
+            };
+
+            return await SendPostRequestCategory(requestData);
+
+        }
+
+        private async Task<IActionResult> SendPostRequestCategory(object requestData)
+        {
+            var apiUrl = $"{_BaseUrlUrud}post-tb-sansiri-url-category";
+
+            var json = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("token", _apiToken);
+
+            var response = await _httpClient.PostAsync(apiUrl, content);
+            var responseText = await response.Content.ReadAsStringAsync();
+
+            return response.IsSuccessStatusCode
+                ? Json(new { success = true })
+                : Json(new { success = false, error = responseText });
         }
 
     }

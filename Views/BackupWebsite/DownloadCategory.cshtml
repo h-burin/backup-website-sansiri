@@ -1,9 +1,11 @@
 @using backup_website.Models.TableUrlCategory
+@using Microsoft.AspNetCore.Html
 @model List<Result>
 @{
     ViewData["Title"] = "Category";
     ViewData["Description"] = "ประเภทของ URL ใช้สำหรับจัดกลุ่มลิงก์ตามโครงสร้างเว็บไซต์ เช่น Category Page (หน้าหมวดหมู่), Product Page (หน้าสินค้า), Blog Page (หน้าบทความ) และ Landing Page (หน้าเป้าหมาย) เพื่อให้การนำทางและ SEO มีประสิทธิภาพมากขึ้น";
     ViewData["UseDataTable"] = true;
+    ViewData["ActionButton"] = new HtmlString("<button type='button' class='btn btn-primary waves-effect waves-light edit-btn' data-bs-toggle='modal' data-bs-target='#editModal'><i class='ti-plus me-2'></i>Add</button>");
     
 }
 
@@ -22,7 +24,7 @@
                     <td>@item.id_category_url</td>
                     <td>@item.name</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-primary waves-effect waves-light btn-sm edit-btn"
+                        <button type="button" class="btn btn-primary waves-effect waves-light btn-sm edit-btn" data-bs-target='#editModal'
                             data-category-id="@item.id_category_url" data-name="@item.name">
                                 Edit
                             </button>

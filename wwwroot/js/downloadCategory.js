@@ -1,16 +1,15 @@
 $(document).ready(function () {
-  console.log("jQuery Version:", $.fn.jquery);
-  console.log("jQuery Validate Loaded:", typeof $.fn.validate);
+  // console.log("jQuery Version:", $.fn.jquery);
+  // console.log("jQuery Validate Loaded:", typeof $.fn.validate);
 
   var table = $("#datatable").DataTable();
-
-  // ✅ ตั้งค่า pageLength ใหม่ โดยไม่ต้อง `destroy()`
   table.page.len(25).draw();
 
-  // ✅ เปิด Modal สำหรับ "Edit" และโหลดข้อมูล
-  $(document).on("click", ".edit-btn", function () {
+  $(".edit-btn").on("click", function () {
+    var editCategoryId = null;
     var editCategoryName = $(this).data("name");
-    var editCategoryId = $(this).data("category-id");
+    editCategoryId = $(this).data("category-id");
+
     $("#editCategoryName").val(editCategoryName);
     $("#editCategoryId").val(editCategoryId);
 
@@ -20,9 +19,14 @@ $(document).ready(function () {
       .off("click")
       .on("click", function () {
         if ($("#editForm").valid()) {
-          // ✅ ตรวจสอบฟอร์มก่อน
-          let isEdit = $("#editCategoryId").val().trim() !== "";
-          saveCategory(isEdit);
+          console.log(editCategoryId);
+          if (editCategoryId == undefined || editCategoryId == null) {
+            saveCategory(false);
+            editCategoryId = null;
+          } else {
+            saveCategory(true);
+            editCategoryId = null;
+          }
         }
       });
   });
@@ -31,10 +35,18 @@ $(document).ready(function () {
     var categoryName = $("#editCategoryName").val().trim();
     var categoryId = $("#editCategoryId").val();
 
-    var requestData = {
-      id_category_url: categoryId,
-      name: categoryName,
-    };
+    var requestData;
+
+    if (isEdit) {
+      var requestData = {
+        id_category_url: categoryId,
+        name: categoryName,
+      };
+    } else {
+      var requestData = {
+        name: categoryName,
+      };
+    }
 
     console.log(requestData);
 
@@ -42,6 +54,7 @@ $(document).ready(function () {
       ? "/BackupWebsite/UpdateCategory"
       : "/BackupWebsite/AddCategory";
 
+    console.log(apiUrl);
     $.ajax({
       url: apiUrl,
       type: "POST",
@@ -66,7 +79,6 @@ $(document).ready(function () {
 
   var deleteCategoryId = null;
 
-  // ✅ เปิด Modal ยืนยันการลบ
   $(document).on("click", ".delete-btn", function () {
     deleteCategoryId = $(this).data("category-id");
     let deleteName = $(this).data("name");
