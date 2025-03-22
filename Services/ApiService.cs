@@ -1,5 +1,5 @@
 using System.Text.Json;
-using backup_website.Models.SansiriUrlLog;
+using backup_website.Models.TableSansiriUrlLog;
 using backup_website.Models.TableSansiriUrl;
 using backup_website.Models.TableUrlCategory;
 using backup_website.Models.TableSansiriUrlLogDetail;
@@ -15,9 +15,9 @@ public class ApiService
         _configuration = configuration;
         _BaseUrlUrud = _configuration["ApiSettings:BaseUrlUrud"] ?? throw new ArgumentNullException(nameof(_BaseUrlUrud), "API URL not found in appsettings.json");
     }
-    public async Task<List<backup_website.Models.SansiriUrlLog.Result>> GetDataAsync()
+    public async Task<List<backup_website.Models.TableSansiriUrlLog.Result>> GetDataAsync()
     {
-        return await FetchApiData<SansiriUrlLog, backup_website.Models.SansiriUrlLog.Result>(
+        return await FetchApiData<TableSansiriUrlLog, backup_website.Models.TableSansiriUrlLog.Result>(
             $"{_BaseUrlUrud}get-tb-sansiri-url-log"
         );
     }

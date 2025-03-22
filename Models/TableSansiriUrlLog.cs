@@ -1,4 +1,4 @@
-namespace backup_website.Models.SansiriUrlLog
+namespace backup_website.Models.TableSansiriUrlLog
 {
     public class Result
     {
@@ -13,7 +13,7 @@ namespace backup_website.Models.SansiriUrlLog
 
     }
 
-    public class SansiriUrlLog
+    public class TableSansiriUrlLog
     {
         public int? code { get; set; }
         public string? status { get; set; }

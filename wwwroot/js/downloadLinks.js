@@ -132,9 +132,7 @@ $(document).ready(function () {
       requestData.url_id = urlId; // ✅ ส่ง `url_id` เฉพาะตอนแก้ไข
     }
 
-    var apiUrl = isEdit
-      ? "/BackupWebsite/UpdateUrl"
-      : "/BackupWebsite/AddNewLink";
+    var apiUrl = isEdit ? "/BackupWebsite/UpdateUrl" : "/BackupWebsite/AddUrl";
 
     if (isEdit && urlId) {
       requestData.url_id = urlId;

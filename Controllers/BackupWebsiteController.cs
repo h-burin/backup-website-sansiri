@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
-using backup_website.Models.Requests;
 using backup_website.Models.TableUrlCategory; // ✅ นำเข้า Model ที่ใช้รับค่าจาก Frontend
 
 namespace backup_website.Controllers
@@ -74,44 +73,6 @@ namespace backup_website.Controllers
             return View(sansiriUrls);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateStatus(int url_id, bool is_active)
-        {
-            var requestData = new
-            {
-                url_id = url_id,
-                is_active = is_active
-            };
-
-            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteUrl(int url_id)
-        {
-            var requestData = new
-            {
-                url_id = url_id,
-                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
-            };
-
-            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteCategory(int id_category_url)
-        {
-            var requestData = new
-            {
-                id_category_url = id_category_url,
-                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
-            };
-
-            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
-
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -119,8 +80,9 @@ namespace backup_website.Controllers
             return Json(new { success = true, data = categories }); // ✅ ส่งข้อมูล Categories กลับเป็น JSON
         }
 
+        // เกี่ยวกับ URL เพิ่ม ลบ แก้ไข
         [HttpPost]
-        public async Task<IActionResult> UpdateUrl([FromBody] UpdateUrlRequest request)
+        public async Task<IActionResult> UpdateUrl([FromBody] Models.TableSansiriUrl.UrlRequest request)
         {
 
             // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
@@ -141,25 +103,17 @@ namespace backup_website.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateCategory([FromBody] TableUrlCategory request)
+        public async Task<IActionResult> UpdateStatus(int url_id, bool is_active)
         {
-
-            // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
-            if (request == null || string.IsNullOrEmpty(request.Result[0].name) || request.Result[0].id_category_url == null)
-            {
-                return Json(new { success = false, error = "Invalid input data" });
-            }
-
             var requestData = new
             {
-                id_category_url = request.Result[0].id_category_url,
-                name = request.Result[0].name,
+                url_id = url_id,
+                is_active = is_active
             };
 
-            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
         }
-
-        public async Task<IActionResult> AddNewLink([FromBody] AddUrlRequest request)
+        public async Task<IActionResult> AddUrl([FromBody] Models.TableSansiriUrl.UrlRequest request)
         {
             if (request == null || string.IsNullOrEmpty(request.url) || request.id_category_url == null)
             {
@@ -177,6 +131,39 @@ namespace backup_website.Controllers
             return await SendHttpRequest(requestData, "post-tb-sansiri-url", HttpMethod.Post);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteUrl(int url_id)
+        {
+            var requestData = new
+            {
+                url_id = url_id,
+                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
+            };
+
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url", HttpMethod.Put);
+
+        }
+        // END เกี่ยวกับ URL เพิ่ม ลบ แก้ไข
+
+        // เกี่ยวกับ Category เพิ่ม ลบ แก้ไข
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory([FromBody] TableUrlCategory request)
+        {
+
+            // ✅ ตรวจสอบว่าข้อมูลที่รับเข้ามาถูกต้อง
+            if (request == null || string.IsNullOrEmpty(request.Result[0].name) || request.Result[0].id_category_url == null)
+            {
+                return Json(new { success = false, error = "Invalid input data" });
+            }
+
+            var requestData = new
+            {
+                id_category_url = request.Result[0].id_category_url,
+                name = request.Result[0].name,
+            };
+
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
+        }
         public async Task<IActionResult> AddCategory([FromBody] TableUrlCategory request)
         {
             if (request == null || string.IsNullOrEmpty(request.Result[0].name))
@@ -192,6 +179,19 @@ namespace backup_website.Controllers
             return await SendHttpRequest(requestData, "post-tb-sansiri-url-category", HttpMethod.Post);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(int id_category_url)
+        {
+            var requestData = new
+            {
+                id_category_url = id_category_url,
+                is_delete = 1 // ✅ ส่งค่า is_delete เป็น 1 เพื่อบอกว่าให้ลบ
+            };
+
+            return await SendHttpRequest(requestData, "put-tb-sansiri-url-category", HttpMethod.Put);
+
+        }
+        // END เกี่ยวกับ Category เพิ่ม ลบ แก้ไข
         private async Task<IActionResult> SendHttpRequest(object requestData, string endpoint, HttpMethod httpMethod)
         {
             var apiUrl = $"{_BaseUrlUrud}{endpoint}"; // ✅ ต่อ Base URL + Endpoint อัตโนมัติ
